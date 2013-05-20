@@ -1,0 +1,10 @@
+ClassInit3
+TestStorePrimStaticField
+TestNewArray
+TestNewInstance
+TestStoreStaticField
+TestLoadStaticField
+TestLoadPrimStaticField
+TestStoreNullStaticField
+TestClassLiteral
+TestStaticMethod

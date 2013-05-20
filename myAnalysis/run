@@ -1,0 +1,89 @@
+#!/bin/bash
+#Author: George Kastrinis
+#refactoring: Anastasios Antoniadis
+
+set -e
+set -u
+#set -x
+
+C_RESET="$(tput sgr0)"
+C_RED="$(tput bold)$(tput setab 0)$(tput setaf 1)"
+C_GREEN="$(tput bold)$(tput setab 0)$(tput setaf 2)"
+C_YELLOW="$(tput bold)$(tput setab 0)$(tput setaf 3)"
+C_WHITE="$(tput bold)$(tput setab 0)$(tput setaf 7)"
+mainclass=""
+classlib=""
+stats=""
+CPPFLAGS=""
+
+
+# process options
+if ( [ "$1" == "-jre1.3" ] || [ "$1" =="-jre1.4" ] || [ "$!1" == "-jre1.5" ] || [ "$1" == "-jre1.6" ] ); then
+    classlib="${1:1:6}"
+    shift 1
+else
+    printf "Invalid jre selection"
+    exit 1
+fi    
+
+arg=$1
+
+# process the jar file argument
+if test -d $arg; then
+	printf "${C_RED}ERROR${C_WHITE}: directories are currently not supported${C_RESET}\n"
+	exit 1
+else
+    jars="$arg"
+
+	if test "x$mainclass" = "x"; then
+		jar xf $arg  META-INF/MANIFEST.MF
+		mainclass=$(grep '^Main-Class: ' META-INF/MANIFEST.MF | cut -d: -f2 | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+		rm -rf META-INF/
+		if [ "x$mainclass" = "x" ]; then
+			mainclass="$(basename $arg .jar)"
+		fi
+	fi
+fi
+printf "${C_WHITE}Main-Class: ${C_GREEN}%s${C_RESET}\n" "$mainclass"
+
+function preprocess()
+{
+	cpp -CC -P $CPPFLAGS $*
+}
+
+function timing()
+{
+	echo "..."
+
+	set +e
+	/usr/bin/time -f "%e" $* > tmp/TIMING 2>&1
+	head -n -1 tmp/TIMING | sed -r 's/ERROR([^S])/'"${C_RED}ERROR${C_RESET}"'\1/g;s/code: ([a-zA-Z_]+)/'"${C_WHITE}code: ${C_RED}"'\1'"${C_RESET}"'/g'
+	if grep "ERROR" tmp/TIMING > /dev/null 2>&1; then exit; fi
+	set -e
+
+	elapsedTime=`tail -n 1 tmp/TIMING`
+	echo "elapsed time: ${elapsedTime}s"
+}
+
+function create-database()
+{
+    cachefacts="cache/input-facts"    
+    echo -n "generating facts ($jars) in $cachefacts "
+    
+    #create temporary directory for generated facts
+    rm -rf tmp/facts
+    #-p parameter: create intermediate directories if they don't exist
+    mkdir -p tmp/facts
+    
+    #call soot fact generation without arguments
+    sootFactGenArgs=""
+    timing java -cp lib/sootclasses-2.3.0.jar:lib/soot-fact-generation.jar Main \
+		-main $mainclass $sootFactGenArgs -full $(./jre-link-arguments $classlib) -d tmp/facts $jars
+    
+    #create input-facts dir in cache and move the input facts there
+	mkdir -p $cachefacts
+	mv tmp/facts/* $cachefacts
+
+}
+
+create-database
