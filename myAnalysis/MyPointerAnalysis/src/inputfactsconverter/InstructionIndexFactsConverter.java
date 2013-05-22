@@ -101,4 +101,8 @@ public class InstructionIndexFactsConverter extends FactsConverter {
         }
     }
     
+    public HashMap<InstructionRef, Integer> getInstructionFactsMap() {
+        return instructionFactsMap;
+    }
+    
 }

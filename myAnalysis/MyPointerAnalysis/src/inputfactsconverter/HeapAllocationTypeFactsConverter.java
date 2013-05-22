@@ -24,9 +24,9 @@ import java.util.regex.Pattern;
  * anantoni
  */
 public class HeapAllocationTypeFactsConverter extends FactsConverter {
-    HashMap heapAllocationRefFactsMap = null;
-    HashMap typeFactsMap = null;
-    HashMap heapAllocationTypeFactsMap = null;
+    HashMap<HeapAllocationRef, Integer> heapAllocationRefFactsMap = null;
+    HashMap<Type, Integer> typeFactsMap = null;
+    HashMap<HeapAllocationType, Integer> heapAllocationTypeFactsMap = null;
     
     public HeapAllocationTypeFactsConverter() {
         super();
