@@ -1,0 +1,8 @@
+[
+{:db/id #db/id[:db.part/user -84165]
+ :HeapAllocationRef/heap_allocation " \" STOR \" "}
+{:db/id #db/id[:db.part/user -75999]
+ :HeapAllocationRef/heap_allocation "Arsenal FC"}
+{:db/id #db/id[:db.part/user -75576]
+ :HeapAllocationRef/heap_allocation "sun.security.pkcs.ContentInfo.<clinit>/new sun.security.util.ObjectIdentifier/7"}
+]

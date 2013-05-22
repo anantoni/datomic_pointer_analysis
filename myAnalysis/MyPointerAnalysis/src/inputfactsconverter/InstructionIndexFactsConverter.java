@@ -3,6 +3,8 @@
  * and open the template in the editor.
  */
 package inputfactsconverter;
+import datomicFacts.InstructionIndex;
+import datomicFacts.InstructionRef;
 import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.io.FileReader;

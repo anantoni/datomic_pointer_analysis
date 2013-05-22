@@ -15,12 +15,16 @@ public class InputFactsConverter {
      */
     public InputFactsConverter() {
         Integer id = -1000;
+        /************* Instruction-Index facts converter *********************/
         InstructionIndexFactsConverter ifc = new InstructionIndexFactsConverter();
         id = ifc.parseLogicBloxFactsFile(id);
         ifc.createDatomicFactsFile();
         System.out.println( id );
+        
+        /************* HeapAllocation-Type facts converter *********************/
         HeapAllocationTypeFactsConverter hatfc = new HeapAllocationTypeFactsConverter();
         id = hatfc.parseLogicBloxFactsFile(id);
+        hatfc.createDatomicFactsFile();
         System.out.println( id );
     }
 }

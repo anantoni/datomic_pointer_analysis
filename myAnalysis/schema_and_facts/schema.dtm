@@ -7,7 +7,7 @@
   :db/cardinality :db.cardinality/one
   :db.install/_attribute :db.part/db}
 
-  ;; Instructions
+ ;; Instructions
  ;; Instruction-Index
  {:db/id #db/id[:db.part/db]
   :db/ident :Instruction-Index/instruction
@@ -19,6 +19,37 @@
  {:db/id #db/id[:db.part/db]
   :db/ident :Instruction-Index/index
   :db/valueType :db.type/long
+  :db/cardinality :db.cardinality/one
+  :db/fulltext true
+  :db.install/_attribute :db.part/db}
+
+ ;;HeapAllocationRef
+ {:db/id #db/id[:db.part/db]
+  :db/ident :HeapAllocationRef/heap_allocation
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one
+  :db.install/_attribute :db.part/db}
+
+ ;;Java Types
+ ;;Type
+ {:db/id #db/id[:db.part/db]
+  :db/ident :Type/type
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one
+  :db.install/_attribute :db.part/db}
+
+ ;; Heap Allocation
+ ;; HeapAllocation:Type
+ {:db/id #db/id[:db.part/db]
+  :db/ident :HeapAllocation-Type/heap_allocation
+  :db/valueType :db.type/ref
+  :db/cardinality :db.cardinality/one
+  :db/fulltext true
+  :db.install/_attribute :db.part/db}
+
+ {:db/id #db/id[:db.part/db]
+  :db/ident :HeapAllocation-Type/type
+  :db/valueType :db.type/ref
   :db/cardinality :db.cardinality/one
   :db/fulltext true
   :db.install/_attribute :db.part/db}
