@@ -38,6 +38,48 @@
   :db/cardinality :db.cardinality/one
   :db.install/_attribute :db.part/db}
 
+ ;;PrimitiveType
+ {:db/id #db/id[:db.part/db]
+  :db/ident :PrimitiveType/type
+  :db/valueType :db.type/ref
+  :db/cardinality :db.cardinality/one
+  :db.install/_attribute :db.part/db}
+
+ ;;ReferenceType
+ {:db/id #db/id[:db.part/db]
+  :db/ident :ReferenceType/type
+  :db/valueType :db.type/ref
+  :db/cardinality :db.cardinality/one
+  :db.install/_attribute :db.part/db}
+
+ ;;NullType
+ {:db/id #db/id[:db.part/db]
+  :db/ident :NullType/type
+  :db/valueType :db.type/ref
+  :db/cardinality :db.cardinality/one
+  :db.install/_attribute :db.part/db}
+
+ ;;ArrayType
+ {:db/id #db/id[:db.part/db]
+  :db/ident :ArrayType/reference_type
+  :db/valueType :db.type/ref
+  :db/cardinality :db.cardinality/one
+  :db.install/_attribute :db.part/db}
+
+ ;;ClassType
+ {:db/id #db/id[:db.part/db]
+  :db/ident :ClassType/reference_type
+  :db/valueType :db.type/ref
+  :db/cardinality :db.cardinality/one
+  :db.install/_attribute :db.part/db}
+
+ ;;InterfaceType
+ {:db/id #db/id[:db.part/db]
+  :db/ident :InterfaceType/reference_type
+  :db/valueType :db.type/ref
+  :db/cardinality :db.cardinality/one
+  :db.install/_attribute :db.part/db}
+
  ;; Heap Allocation
  ;; HeapAllocation:Type
  {:db/id #db/id[:db.part/db]
