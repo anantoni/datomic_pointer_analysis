@@ -24,15 +24,14 @@ import java.util.regex.Pattern;
  * anantoni
  */
 public class HeapAllocationTypeFactsConverter extends FactsConverter {
-    HashMap<HeapAllocationRef, Integer> heapAllocationRefFactsMap = null;
-    HashMap<Type, Integer> typeFactsMap = null;
-    HashMap<HeapAllocationType, Integer> heapAllocationTypeFactsMap = null;
+    ArrayList<HeapAllocationRef> heapAllocationRefFactsList = null;
+    ArrayList<HeapAllocationType> heapAllocationTypeFactsList = null;
+    ArrayList<Type> typeFactsList = null;
     
     public HeapAllocationTypeFactsConverter() {
         super();
-        heapAllocationRefFactsMap = new HashMap();
-        typeFactsMap = new HashMap();
-        heapAllocationTypeFactsMap = new HashMap();
+        heapAllocationRefFactsList = new ArrayList();
+        heapAllocationTypeFactsList = new ArrayList();
     }    
     
     @Override
@@ -60,19 +59,24 @@ public class HeapAllocationTypeFactsConverter extends FactsConverter {
                     }
                     
                     /**************************** HeapAllocationRef **********************************/
-                    HeapAllocationRef har = new HeapAllocationRef( m.group(1) ); //Initialize new HeapAllocationRef object
+                    
                     int id1 = id;
-                    heapAllocationRefFactsMap.put( har, id1);                    //Map it to its id
+                    HeapAllocationRef har = new HeapAllocationRef( m.group(1), id ); //Initialize new HeapAllocationRef object
+                    heapAllocationRefFactsList.add(har);                    //Map it to its id
                     
                     /******************************** Type **********************************************/
-                    Type t = new Type( m.group(3) );        //Initialize new InstructionRef object
-                    int id2 = --id;
-                    typeFactsMap.put( t, id2);              //Map it to its id
                     
-                    /*************************** HeapAllocationTYpe *****************************/
-                    HeapAllocationType ii = new HeapAllocationType( har, id1, t, id2 ); 
-                    heapAllocationTypeFactsMap.put( ii, --id );           //decrement id and map the InstructionIndex object to it
-                    id--;                                               //decrement id for next cycle
+                    for ( Type type : typeFactsList ) {
+                        if ( m.group(3).equals( type.getType() ) ) {
+                            int id2 = type.getID();
+                            /*************************** HeapAllocationTYpe *****************************/
+                            HeapAllocationType hat = new HeapAllocationType( --id, har, id1, type, id2 ); 
+                            heapAllocationTypeFactsList.add( hat );          //decrement id and map the InstructionIndex object to it
+                            id--;                                               //decrement id for next cycle
+                        }
+                    }
+                    
+                    
                 }
             }
             
@@ -117,5 +121,9 @@ public class HeapAllocationTypeFactsConverter extends FactsConverter {
             System.exit(-1);
         }
         
+    }
+    
+    public void setTypeFactsList( ArrayList<Type> typeFactsList ) {
+        this.typeFactsList = typeFactsList;
     }
 }

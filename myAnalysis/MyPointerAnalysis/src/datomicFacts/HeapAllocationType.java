@@ -12,10 +12,12 @@ package datomicFacts;
 public class HeapAllocationType {
     HeapAllocationRef heapAllocationRef = null;
     Type type = null;
+    int id = 0;
     int heapAllocationRefID = 0;
     int typeID = 0;    
     
-    public HeapAllocationType( HeapAllocationRef har, int har_id, Type t, int t_id ) {
+    public HeapAllocationType( int id, HeapAllocationRef har, int har_id, Type t, int t_id ) {
+        this.id = id;
         heapAllocationRef = har;
         type = t;
         heapAllocationRefID = har_id;
