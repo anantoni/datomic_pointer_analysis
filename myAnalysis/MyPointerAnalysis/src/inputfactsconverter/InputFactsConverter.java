@@ -11,7 +11,6 @@ import java.util.ArrayList;
  * @author anantoni
  */
 public class InputFactsConverter {
-    ArrayList<Type> typeFactsList = null;
     
 
     /**
@@ -38,6 +37,13 @@ public class InputFactsConverter {
         id = hatfc.parseLogicBloxFactsFile(id);
         hatfc.createDatomicFactsFile();
         System.out.println( id );
+        
+        TypeDeclarationsFactsConverter tdfc = new TypeDeclarationsFactsConverter();
+        tdfc.setTypeFactsList(tfc.getTypeFactsList());
+        tdfc.setClassTypeFactsList(tfc.getClassTypeFactsList());
+        id = tdfc.parseLogicBloxFactsFile(id);
+        tdfc.parseLogicBloxFactsFile(id);
+        
         
     }
 }

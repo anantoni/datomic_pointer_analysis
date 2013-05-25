@@ -321,4 +321,8 @@ public class TypeFactsConverter extends FactsConverter {
     public ArrayList<Type> getTypeFactsList() {
         return typeFactsList;
     }
+    
+    public ArrayList<ClassType> getClassTypeFactsList() {
+        return classTypeFactsList;
+    }
 }

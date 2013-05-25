@@ -96,4 +96,44 @@
   :db/fulltext true
   :db.install/_attribute :db.part/db}
  
+ ;;Type Declarations
+ ;;DirectSuperclass
+ {:db/id #db/id[:db.part/db]
+  :db/ident :DirectSuperclass/ref
+  :db/valueType :db.type/ref
+  :db/cardinality :db.cardinality/one
+  :db.install/_attribute :db.part/db}
+
+ {:db/id #db/id[:db.part/db]
+  :db/ident :DirectSuperclass/super
+  :db/valueType :db.type/ref
+  :db/cardinality :db.cardinality/one
+  :db.install/_attribute :db.part/db}
+
+ ;;DirectSuperinterface
+ {:db/id #db/id[:db.part/db]
+  :db/ident :DirectSuperinterface/class
+  :db/valueType :db.type/ref
+  :db/cardinality :db.cardinality/one
+  :db.install/_attribute :db.part/db}
+
+ {:db/id #db/id[:db.part/db]
+  :db/ident :DirectSuperinterface/interface
+  :db/valueType :db.type/ref
+  :db/cardinality :db.cardinality/one
+  :db.install/_attribute :db.part/db}
+
+ ;;ApplicationClass
+ {:db/id #db/id[:db.part/db]
+  :db/ident :ApplicationClass/ref
+  :db/valueType :db.type/ref
+  :db/cardinality :db.cardinality/one
+  :db.install/_attribute :db.part/db}
+
+ ;;MainClass
+ {:db/id #db/id[:db.part/db]
+  :db/ident :MainClass/ref
+  :db/valueType :db.type/ref
+  :db/cardinality :db.cardinality/one
+  :db.install/_attribute :db.part/db}
 ]
