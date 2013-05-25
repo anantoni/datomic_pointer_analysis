@@ -6,7 +6,6 @@ package inputfactsconverter;
 
 import datomicFacts.ArrayType;
 import datomicFacts.ClassType;
-import datomicFacts.ComponentType;
 import datomicFacts.HeapAllocationRef;
 import datomicFacts.Type;
 import datomicFacts.HeapAllocationType;
@@ -15,7 +14,9 @@ import datomicFacts.NullType;
 import datomicFacts.PrimitiveType;
 import datomicFacts.ReferenceType;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
@@ -28,7 +29,7 @@ public class TypeFactsConverter extends FactsConverter {
     private ArrayList<Type> typeFactsList;
     private ArrayList<ArrayType> arrayTypeFactsList;
     private ArrayList<ClassType> classTypeFactsList;
-    private ArrayList<ComponentType> componentTypeFactsList;
+    //private ArrayList<ComponentType> componentTypeFactsList;
     private ArrayList<InterfaceType> interfaceTypeFactsList;
     private ArrayList<NullType> nullTypeFactsList;
     private ArrayList<PrimitiveType> primitiveTypeFactsList;
@@ -40,7 +41,7 @@ public class TypeFactsConverter extends FactsConverter {
         typeFactsList = new ArrayList();
         arrayTypeFactsList = new ArrayList();
         classTypeFactsList = new ArrayList();
-        componentTypeFactsList = new ArrayList();
+        //componentTypeFactsList = new ArrayList();
         interfaceTypeFactsList = new ArrayList();
         nullTypeFactsList = new ArrayList();
         primitiveTypeFactsList = new ArrayList();
@@ -70,16 +71,12 @@ public class TypeFactsConverter extends FactsConverter {
                         typeFactsList.add(type);
                         referenceTypeFactsList.add(refType);
                         arrayTypeFactsList.add(arrayType);
-                        
                     }
-                        
                 }
             }
-            
         }
         catch( Exception ex) {
             System.out.println( ex.toString() ); 
-            
         }
         
         try {
@@ -103,16 +100,12 @@ public class TypeFactsConverter extends FactsConverter {
                         typeFactsList.add(type);
                         referenceTypeFactsList.add(refType);
                         classTypeFactsList.add(classType);
-                        
                     }
-                        
                 }
             }
-            
         }
         catch( Exception ex) {
             System.out.println( ex.toString() ); 
-            
         }
         
         try {
@@ -136,15 +129,12 @@ public class TypeFactsConverter extends FactsConverter {
                         typeFactsList.add(type);
                         referenceTypeFactsList.add(refType);
                         interfaceTypeFactsList.add(interfaceType);
-                        
                     }
                 }
             }
-            
         }
         catch( Exception ex) {
             System.out.println( ex.toString() ); 
-            
         }
         
         try {
@@ -163,20 +153,15 @@ public class TypeFactsConverter extends FactsConverter {
                         continue;
                     else {
                         Type type = new Type( line, id-- );
-                        ReferenceType refType = new ReferenceType( type, id-- );
-                        InterfaceType interfaceType = new InterfaceType( refType, id-- );
+                        NullType nullType = new NullType( type, id-- );
                         typeFactsList.add(type);
-                        referenceTypeFactsList.add(refType);
-                        interfaceTypeFactsList.add(interfaceType);
-                        
+                        nullTypeFactsList.add(nullType);
                     }
                 }
             }
-            
         }
         catch( Exception ex) {
             System.out.println( ex.toString() ); 
-            
         }
         
         try {
@@ -202,42 +187,37 @@ public class TypeFactsConverter extends FactsConverter {
                     }
                 }
             }
-            
         }
         catch( Exception ex) {
             System.out.println( ex.toString() ); 
-            
         }
         
-        try {
-            try (BufferedReader br = new BufferedReader( new FileReader( "../cache/input-facts/ReferenceType.facts" ) )) {
-                String line;
-
-                while ((line = br.readLine()) != null) {
-                    boolean typeFound = false;
-                    for ( ReferenceType item : referenceTypeFactsList ) {
-                        if ( line.equals( item.getType().getType() ) ) {
-                                typeFound = true;
-                                break;
-                        }
-                    }
-                    if (typeFound)
-                        continue;
-                    else {
-                        Type type = new Type( line, id-- );
-                        ReferenceType refType = new ReferenceType( type, id-- );
-                        typeFactsList.add(type);
-                        referenceTypeFactsList.add(refType);
-                        
-                    }
-                }
-            }
-            
-        }
-        catch( Exception ex) {
-            System.out.println( ex.toString() ); 
-            
-        }
+//        try {
+//            try (BufferedReader br = new BufferedReader( new FileReader( "../cache/input-facts/ReferenceType.facts" ) )) {
+//                String line;
+//
+//                while ((line = br.readLine()) != null) {
+//                    boolean typeFound = false;
+//                    for ( ReferenceType item : referenceTypeFactsList ) {
+//                        if ( line.equals( item.getType().getType() ) ) {
+//                                typeFound = true;
+//                                break;
+//                        }
+//                    }
+//                    if (typeFound)
+//                        continue;
+//                    else {
+//                        Type type = new Type( line, id-- );
+//                        ReferenceType refType = new ReferenceType( type, id-- );
+//                        typeFactsList.add(type);
+//                        referenceTypeFactsList.add(refType);
+//                    }
+//                }
+//            }
+//        }
+//        catch( Exception ex) {
+//            System.out.println( ex.toString() ); 
+//        }
         /*
         try {
             try (BufferedReader br = new BufferedReader( new FileReader( "../cache/input-facts/ComponentType.facts" ) )) {
@@ -276,100 +256,66 @@ public class TypeFactsConverter extends FactsConverter {
     public void createDatomicFactsFile() {
         try {
             /*************************** Type.dtm **********************************************/
-            try (PrintWriter writer = new PrintWriter("../schema_and_facts/Type.dtm", "UTF-8")) {
+            try ( PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter("../schema_and_facts/seed-data.dtm", true)));) {
                 
-                writer.println("[");
                 for ( Type type: typeFactsList ) {
                     writer.println( "{:db/id #db/id[:db.part/user " + type.getID() + "]" );
                     writer.println( " :Type/type \""+ type.getType() +"\"}"); 
                 } 
-                writer.println("]");
-                writer.close();
                 
-            }
+            
             /********************************* ArrayType.dtm ***********************************/
-            try (PrintWriter writer = new PrintWriter("../schema_and_facts/ArrayType.dtm", "UTF-8")) {
                
-                writer.println("[");
                 for ( ArrayType arrayType: arrayTypeFactsList ) {
                     writer.println( "{:db/id #db/id[:db.part/user " + arrayType.getID() + "]" );
                     writer.println( " :ArrayType/reference_type #db/id[:db.part/user " + arrayType.getType().getID() + "]}");  
                 } 
-                writer.println("]");
-                writer.close();
-            }
             /********************************* ClassType.dtm ***********************************/
-            try (PrintWriter writer = new PrintWriter("../schema_and_facts/ClassType.dtm", "UTF-8")) {
                
-                writer.println("[");
                 for ( ClassType classType: classTypeFactsList ) {
                     writer.println( "{:db/id #db/id[:db.part/user " + classType.getID() + "]" );
                     writer.println( " :ClassType/reference_type #db/id[:db.part/user " + classType.getType().getID() + "]}");  
                 } 
-                writer.println("]");
-                writer.close();
                 
-            }
             /********************************* InterfaceType.dtm ***********************************/
-            try (PrintWriter writer = new PrintWriter("../schema_and_facts/InterfaceType.dtm", "UTF-8")) {
                
-                writer.println("[");
                 for ( InterfaceType interfaceType: interfaceTypeFactsList ) {
                     writer.println( "{:db/id #db/id[:db.part/user " + interfaceType.getID() + "]" );
                     writer.println( " :InterfaceType/reference_type #db/id[:db.part/user " + interfaceType.getType().getID() + "]}");  
                 } 
-                writer.println("]");
-                writer.close();
-                
-            }
+               
             
             /********************************* PrimitiveType.dtm ***********************************/
-            try (PrintWriter writer = new PrintWriter("../schema_and_facts/PrimitiveType.dtm", "UTF-8")) {
                
-                writer.println("[");
                 for ( PrimitiveType primitiveType: primitiveTypeFactsList ) {
                     writer.println( "{:db/id #db/id[:db.part/user " + primitiveType.getID() + "]" );
                     writer.println( " :PrimitiveType/type #db/id[:db.part/user " + primitiveType.getType().getID() + "]}");  
                 } 
-                writer.println("]");
-                writer.close();
+               
                 
-            }
             
             /********************************* ReferenceType.dtm ***********************************/
-            try (PrintWriter writer = new PrintWriter("../schema_and_facts/ReferenceType.dtm", "UTF-8")) {
                
-                writer.println("[");
                 for ( ReferenceType referenceType: referenceTypeFactsList ) {
                     writer.println( "{:db/id #db/id[:db.part/user " + referenceType.getID() + "]" );
                     writer.println( " :ReferenceType/type #db/id[:db.part/user " + referenceType.getType().getID() + "]}");  
                 } 
-                writer.println("]");
-                writer.close();
                 
-            }
             
             /********************************* NullType.dtm ***********************************/
-            try (PrintWriter writer = new PrintWriter("../schema_and_facts/NullType.dtm", "UTF-8")) {
                
-                writer.println("[");
                 for ( NullType nullType : nullTypeFactsList ) {
                     writer.println( "{:db/id #db/id[:db.part/user " + nullType.getID() + "]" );
                     writer.println( " :NullType/type #db/id[:db.part/user " + nullType.getType().getID() + "]}");  
                 } 
-                writer.println("]");
                 writer.close();
                 
-            }
-            
-            
-            
+            }        
         }
         catch ( Exception ex ) {
             System.out.println( ex.toString() ); 
             System.exit(-1);
         }
-        
     }
     
     public ArrayList<Type> getTypeFactsList() {

@@ -71,24 +71,26 @@ public class MyPointerAnalysis {
 
             
             insertInputFacts(conn);
+            System.out.println( "Seed data inserted" );
             
-            Collection results = Peer.q("[:find ?h :where [?h :HeapAllocationRef/heap_allocation]]", conn.db());
-	    System.out.println(results.size());
-            Long id = (Long) ((List)results.iterator().next()).get(0);
-	    Entity entity = conn.db().entity(id);
-	    System.out.println(entity.keySet());
             
-            Database db = conn.db();
-	    for (Object result : results) {
-		entity = db.entity(((List) result).get(0));
-		System.out.println(entity.get(":HeapAllocationRef/heap_allocation"));
-	    }
+            
+//            Collection results = Peer.q("[:find ?h :where [?h :HeapAllocationRef/heap_allocation]]", conn.db());
+//	    System.out.println(results.size());
+//            Long id = (Long) ((List)results.iterator().next()).get(0);
+//	    Entity entity = conn.db().entity(id);
+//	    System.out.println(entity.keySet());
+//            
+//            Database db = conn.db();
+//	    for (Object result : results) {
+//		entity = db.entity(((List) result).get(0));
+//		System.out.println(entity.get(":HeapAllocationRef/heap_allocation"));
+//	    }
 
 
-            
 	}
 	catch (IOException | InterruptedException | ExecutionException e) {
-	    e.printStackTrace();
+            System.out.println( e.toString() ); 
             System.exit(-1);
 	}
     }
@@ -105,18 +107,51 @@ public class MyPointerAnalysis {
     public static void insertInputFacts( Connection conn ) throws FileNotFoundException, InterruptedException, ExecutionException {
         System.out.println("Parsing seed data dtm file and running transaction...");
         List data_tx;
-        List new_data_tx;
-        Reader data_rdr = new FileReader("../schema_and_facts/Instruction-Index.dtm");
+        Reader data_rdr = new FileReader("../schema_and_facts/seed-data.dtm");
         data_tx = (List) Util.readAll(data_rdr).get(0);
 	Object txResult = conn.transact(data_tx).get();
         
-        data_rdr = new FileReader("../schema_and_facts/HeapAllocation-Type.dtm");
-        new_data_tx = (List) Util.readAll(data_rdr).get(0);
-	txResult = conn.transact(new_data_tx).get();
+        
+//        data_rdr = new FileReader("../schema_and_facts/Instruction-Index.dtm");
+//        data_tx = (List) Util.readAll(data_rdr).get(0);
+//	txResult = conn.transact(data_tx).get();
+//        data_rdr = new FileReader("../schema_and_facts/HeapAllocationRef.dtm");
+//        new_data_tx = (List) Util.readAll(data_rdr).get(0);
+//	txResult = conn.transact(new_data_tx).get();
+//        
+//        data_rdr = new FileReader("../schema_and_facts/Type.dtm");
+//        new_data_tx = (List) Util.readAll(data_rdr).get(0);
+//	txResult = conn.transact(new_data_tx).get();
+        
+//        data_rdr = new FileReader("../schema_and_facts/ArrayType.dtm");
+//        new_data_tx = (List) Util.readAll(data_rdr).get(0);
+//	txResult = conn.transact(new_data_tx).get();
+//        
+//        data_rdr = new FileReader("../schema_and_facts/ClassType.dtm");
+//        new_data_tx = (List) Util.readAll(data_rdr).get(0);
+//	txResult = conn.transact(new_data_tx).get();
+//        
+//        data_rdr = new FileReader("../schema_and_facts/InterfaceType.dtm");
+//        new_data_tx = (List) Util.readAll(data_rdr).get(0);
+//	txResult = conn.transact(new_data_tx).get();
+//        
+//        data_rdr = new FileReader("../schema_and_facts/NullType.dtm");
+//        new_data_tx = (List) Util.readAll(data_rdr).get(0);
+//	txResult = conn.transact(new_data_tx).get();
+//        
+//        data_rdr = new FileReader("../schema_and_facts/PrimitiveType.dtm");
+//        new_data_tx = (List) Util.readAll(data_rdr).get(0);
+//	txResult = conn.transact(new_data_tx).get();
+//        
+//        data_rdr = new FileReader("../schema_and_facts/ReferenceType.dtm");
+//        new_data_tx = (List) Util.readAll(data_rdr).get(0);
+//	txResult = conn.transact(new_data_tx).get();
+//        
+//        data_rdr = new FileReader("../schema_and_facts/HeapAllocation-Type.dtm");
+//        new_data_tx = (List) Util.readAll(data_rdr).get(0);
+//	txResult = conn.transact(new_data_tx).get();
         
 
-        data_rdr = new FileReader("../schema_and_facts/Test.dtm");
-        new_data_tx = (List) Util.readAll(data_rdr).get(0);
-	txResult = conn.transact(new_data_tx).get();
+       
     }
 }

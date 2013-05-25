@@ -6,8 +6,6 @@ package inputfactsconverter;
 import datomicFacts.Type;
 import java.util.ArrayList;
 
-
-
 /**
  *
  * @author anantoni
@@ -31,6 +29,7 @@ public class InputFactsConverter {
         /************* Instruction-Index facts converter *********************/
         TypeFactsConverter tfc = new TypeFactsConverter();
         id = tfc.parseLogicBloxFactsFile(id);
+        tfc.createDatomicFactsFile();
         System.out.println( id );
         
         /************* HeapAllocation-Type facts converter *********************/
@@ -39,5 +38,6 @@ public class InputFactsConverter {
         id = hatfc.parseLogicBloxFactsFile(id);
         hatfc.createDatomicFactsFile();
         System.out.println( id );
+        
     }
 }

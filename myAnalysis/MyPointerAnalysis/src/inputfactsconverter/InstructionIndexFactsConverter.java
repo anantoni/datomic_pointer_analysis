@@ -6,8 +6,10 @@ package inputfactsconverter;
 import datomicFacts.InstructionIndex;
 import datomicFacts.InstructionRef;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.PrintWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.regex.Matcher;
@@ -76,7 +78,7 @@ public class InstructionIndexFactsConverter extends FactsConverter {
     @Override
     public void createDatomicFactsFile() {
         try {
-            try (PrintWriter writer = new PrintWriter("../schema_and_facts/" + "Instruction-Index.dtm", "UTF-8")) {
+            try ( PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter("../schema_and_facts/seed-data.dtm", false))); ) {
                 List<InstructionRef> instructionKeys = new ArrayList<>( instructionFactsMap.keySet() );
                 writer.println("[");
                 for ( InstructionRef key: instructionKeys) {
@@ -90,7 +92,6 @@ public class InstructionIndexFactsConverter extends FactsConverter {
                     writer.println( " :Instruction-Index/instruction #db/id[:db.part/user " + key1.getInstructionID() + "]");
                     writer.println( " :Instruction-Index/index " + key1.getIndex() + "}" );
                 }
-                writer.println("]");
                 writer.close();
             }
             

@@ -9,7 +9,7 @@ package datomicFacts;
  * @author
  * anantoni
  */
-public class ComponentType extends Type {
+/*public class ComponentType extends Type {
     public ComponentType( String t ) {
         super(t);
     }
@@ -18,4 +18,4 @@ public class ComponentType extends Type {
         super(t, id);
     }
     
-}
+}*/
