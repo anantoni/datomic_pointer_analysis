@@ -38,7 +38,6 @@ public class HeapAllocationTypeFactsConverter extends FactsConverter {
     
     @Override
     public int parseLogicBloxFactsFile( int id ) {
-        
         try {
             try (BufferedReader br = new BufferedReader( new FileReader( "../cache/input-facts/HeapAllocation-Type.facts" ) )) {
                 String line;
@@ -59,32 +58,25 @@ public class HeapAllocationTypeFactsConverter extends FactsConverter {
                         System.out.println( "Could not find match" );
                         System.exit(-1);
                     }
-                    
                     /**************************** HeapAllocationRef **********************************/
-                    
                     HeapAllocationRef har = new HeapAllocationRef( m.group(1), id-- ); //Initialize new HeapAllocationRef object
                     heapAllocationRefFactsList.add(har);                    //Map it to its id
                     
                     /******************************** Type **********************************************/
-                    
                     for ( Type type : typeFactsList ) {
                         if ( m.group(3).equals( type.getType() ) ) {
                             /*************************** HeapAllocationTYpe *****************************/
                             HeapAllocationType hat = new HeapAllocationType( id--, har, type ); 
                             heapAllocationTypeFactsList.add( hat );          //decrement id and map the InstructionIndex object to it
                         }
-                    }
-                    
-                    
+                    }                    
                 }
+                br.close();
             }
-            
         }
         catch( Exception ex) {
             System.out.println( ex.toString() ); 
-            
         }
-        
         return id;
     }
     

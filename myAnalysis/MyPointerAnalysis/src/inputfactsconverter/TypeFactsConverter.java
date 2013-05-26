@@ -73,6 +73,7 @@ public class TypeFactsConverter extends FactsConverter {
                         arrayTypeFactsList.add(arrayType);
                     }
                 }
+                br.close();
             }
         }
         catch( Exception ex) {
@@ -102,6 +103,7 @@ public class TypeFactsConverter extends FactsConverter {
                         classTypeFactsList.add(classType);
                     }
                 }
+                br.close();
             }
         }
         catch( Exception ex) {
@@ -131,6 +133,7 @@ public class TypeFactsConverter extends FactsConverter {
                         interfaceTypeFactsList.add(interfaceType);
                     }
                 }
+                br.close();
             }
         }
         catch( Exception ex) {
@@ -158,6 +161,7 @@ public class TypeFactsConverter extends FactsConverter {
                         nullTypeFactsList.add(nullType);
                     }
                 }
+                br.close();
             }
         }
         catch( Exception ex) {
@@ -186,6 +190,7 @@ public class TypeFactsConverter extends FactsConverter {
                         
                     }
                 }
+                br.close();
             }
         }
         catch( Exception ex) {

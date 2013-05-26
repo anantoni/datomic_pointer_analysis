@@ -61,6 +61,7 @@ public class InstructionIndexFactsConverter extends FactsConverter {
                     instructionIndexFactsMap.put( ii, --id );           //decrement id and map the InstructionIndex object to it
                     id--;                                               //decrement id for next cycle
                 }
+                br.close();
             }
             
         }
