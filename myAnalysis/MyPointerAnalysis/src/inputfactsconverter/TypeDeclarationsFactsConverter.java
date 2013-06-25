@@ -9,11 +9,19 @@ import java.util.ArrayList;
 import datomicFacts.ClassType;
 import datomicFacts.DirectSuperClass;
 import datomicFacts.DirectSuperInterface;
+import datomicFacts.HeapAllocationRef;
+import datomicFacts.HeapAllocationType;
+import datomicFacts.InstructionIndex;
+import datomicFacts.InstructionRef;
 import datomicFacts.MainClass;
 import datomicFacts.Type;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -41,7 +49,7 @@ public class TypeDeclarationsFactsConverter extends FactsConverter {
     public int parseLogicBloxFactsFile(int id) {
         
         try {
-            try (BufferedReader br = new BufferedReader( new FileReader( "../cache/input-facts/DirectSuperClass.facts" ) )) {
+            try (BufferedReader br = new BufferedReader( new FileReader( "../cache/input-facts/DirectSuperclass.facts" ) )) {
                 String line;
                 while ((line = br.readLine()) != null) {
                     String pattern = "(.*?)(\\s+)(.*+)";
@@ -82,7 +90,7 @@ public class TypeDeclarationsFactsConverter extends FactsConverter {
                 br.close();
             }
             
-            try (BufferedReader br = new BufferedReader( new FileReader( "../cache/input-facts/DirectSuperInterface.facts" ) )) {
+            try (BufferedReader br = new BufferedReader( new FileReader( "../cache/input-facts/DirectSuperinterface.facts" ) )) {
                 String line;
                 while ((line = br.readLine()) != null) {
                     String pattern = "(.*?)(\\s+)(.*+)";
@@ -141,25 +149,6 @@ public class TypeDeclarationsFactsConverter extends FactsConverter {
                 }
                 br.close();
             }
-            
-            try (BufferedReader br = new BufferedReader( new FileReader( "../cache/input-facts/MainClass.facts" ) )) {
-                String line;
-                while ((line = br.readLine()) != null) {
-                    ClassType refClass = null;
-                    
-                    for ( ClassType classType : classTypeFactsList ) {
-                        if ( classType.getType().getType().getType().equals( line ) ) {
-                            refClass = classType;
-                            break;
-                        }
-                    }
-                    
-                    MainClass mainClass = new MainClass( id--, refClass );
-                    mainClassFactsList.add(mainClass);
-                                      
-                }
-                br.close();
-            }
      
         }
         catch( IOException | NumberFormatException ex) {
@@ -173,7 +162,28 @@ public class TypeDeclarationsFactsConverter extends FactsConverter {
     
     @Override
     public void createDatomicFactsFile() {
-        
+        try {
+            try ( PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter("../schema_and_facts/seed-data.dtm", true)));) {
+                for ( DirectSuperClass key : directSuperClassFactsList ) {
+                    writer.println( "{:db/id #db/id[:db.part/user " + key.getID() + "]" );
+                    writer.println( " :DirectSuperclass/ref #db/id[:db.part/user " + key.getRefClassType().getID() +"]"); 
+                    writer.println( " :DirectSuperclass/super #db/id[:db.part/user " + key.getSuperClassType().getID() + "]}");
+                }
+                
+                for ( DirectSuperInterface key2: directSuperInterfaceFactsList ) {
+                    writer.println( "{:db/id #db/id[:db.part/user " + key2.getID() + "]" );
+                    writer.println( " :DirectSuperinterface/class #db/id[:db.part/user " + key2.getClassType().getID() +"]"); 
+                    writer.println( " :DirectSuperinterface/interace #db/id[:db.part/user " + key2.getInterfaceType().getID() + "]}");
+                }
+                writer.println("]");
+                writer.close();
+            }
+            
+        }
+        catch ( Exception ex ) {
+            System.out.println( ex.toString() ); 
+            System.exit(-1);
+        }
     }
     
     

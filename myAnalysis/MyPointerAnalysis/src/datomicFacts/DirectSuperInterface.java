@@ -24,11 +24,11 @@ public class DirectSuperInterface {
         return id;
     }
     
-    public Type getRefClassType() {
+    public Type getClassType() {
         return refClass;
     }
     
-    public Type getSuperClassType() {
+    public Type getInterfaceType() {
         return superInterface;
     }
 }
