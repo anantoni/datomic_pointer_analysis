@@ -42,8 +42,17 @@ public class InputFactsConverter {
         tdfc.setTypeFactsList(tfc.getTypeFactsList());
         tdfc.setClassTypeFactsList(tfc.getClassTypeFactsList());
         id = tdfc.parseLogicBloxFactsFile(id);
-        tdfc.parseLogicBloxFactsFile(id);
+        tdfc.createDatomicFactsFile();
+        System.out.println( id );
         
+        VariableDeclarationsFactsConverter vdfc = new VariableDeclarationsFactsConverter();
+        vdfc.setTypeFactsList(tfc.getTypeFactsList());
+        System.out.println( "Nini" );
+        id = vdfc.parseLogicBloxFactsFile(id);
+        System.out.println("Ninia");
+        vdfc.createDatomicFactsFile();
+        System.out.println("Niniania");
+        System.out.println( id );
         
     }
 }

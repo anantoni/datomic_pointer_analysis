@@ -151,7 +151,7 @@ public class TypeDeclarationsFactsConverter extends FactsConverter {
             }
      
         }
-        catch( IOException | NumberFormatException ex) {
+        catch( IOException ex) {
             System.out.println( ex.toString() );
             System.exit(-1);
             
@@ -175,7 +175,13 @@ public class TypeDeclarationsFactsConverter extends FactsConverter {
                     writer.println( " :DirectSuperinterface/class #db/id[:db.part/user " + key2.getClassType().getID() +"]"); 
                     writer.println( " :DirectSuperinterface/interace #db/id[:db.part/user " + key2.getInterfaceType().getID() + "]}");
                 }
-                writer.println("]");
+                
+                for ( ApplicationClass key3 : applicationClassFactsList ) {
+                    writer.println( "{:db/id #db/id[:db.part/user " + key3.getID() + "]" );
+                    writer.println( " :ApplicationClass/ref #db/id[:db.part/user " + key3.getType().getID() + "]}");
+
+
+                }
                 writer.close();
             }
             

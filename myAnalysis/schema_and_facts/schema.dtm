@@ -136,4 +136,34 @@
   :db/valueType :db.type/ref
   :db/cardinality :db.cardinality/one
   :db.install/_attribute :db.part/db}
+
+ ;;Var-Type
+ {:db/id #db/id[:db.part/db]
+  :db/ident :Var-Type/ref
+  :db/valueType :db.type/ref
+  :db/cardinality :db.cardinality/one
+  :db.install/_attribute :db.part/db}
+
+ {:db/id #db/id[:db.part/db]
+  :db/ident :Var-Type/type
+  :db/valueType :db.type/ref
+  :db/cardinality :db.cardinality/one
+  :db.install/_attribute :db.part/db}
+ 
+ ;;Var-DeclaringMethod
+ {:db/id #db/id[:db.part/db]
+  :db/ident :Var-DeclaringMethod/ref
+  :db/valueType :db.type/ref
+  :db/cardinality :db.cardinality/one
+  :db.install/_attribute :db.part/db}
+
+ {:db/id #db/id[:db.part/db]
+  :db/ident :Var-DeclaringMethod/method
+  :db/valueType :db.type/ref
+  :db/cardinality :db.cardinality/one
+  :db.install/_attribute :db.part/db}
+
+
+
 ]
+
